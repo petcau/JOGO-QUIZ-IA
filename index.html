@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Animal - Teste seus conhecimentos!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="quiz-container" id="quiz">
+        <!-- Cabeçalho do Quiz -->
+        <div class="quiz-header">
+            <h1>Mundo Animal 🐾</h1>
+            <p id="progress">Pergunta 1 de 10</p>
+        </div>
+
+        <!-- Área da Pergunta -->
+        <div class="question-container">
+            <h2 id="question">A pergunta aparecerá aqui?</h2>
+            <div id="options" class="options-grid">
+                <!-- As alternativas serão inseridas via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="quiz-footer">
+            <button id="next-btn" class="btn">Próxima</button>
+        </div>
+    </div>
+
+    <!-- Tela de Resultado (escondida inicialmente) -->
+    <div class="result-container hidden" id="result-screen">
+        <h2>Fim de Jogo!</h2>
+        <div class="score-circle">
+            <span id="score-text">0/10</span>
+        </div>
+        <p id="message">Mensagem de desempenho aqui.</p>
+        <button id="restart-btn" class="btn">Jogar Novamente</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
