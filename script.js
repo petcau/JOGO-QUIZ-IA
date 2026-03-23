@@ -1,4 +1,3 @@
-// Banco de dados de perguntas
 const quizData = [
     {
         question: "Qual é o maior animal terrestre do mundo?",
@@ -7,7 +6,7 @@ const quizData = [
     },
     {
         question: "Qual destes animais é conhecido por ser o mais rápido da terra?",
-        options: ["Leão", "Antílope", "Guepardo (Guepardo)", "Cavalo"],
+        options: ["Leão", "Antílope", "Guepardo", "Cavalo"],
         correct: 2
     },
     {
@@ -41,7 +40,7 @@ const quizData = [
         correct: 0
     },
     {
-        question: "Qual é o maior mamífero do mundo (terrestre ou marinho)?",
+        question: "Qual é o maior mamífero do mundo?",
         options: ["Elefante", "Tubarão Baleia", "Baleia Azul", "Lula Gigante"],
         correct: 2
     },
@@ -52,68 +51,65 @@ const quizData = [
     }
 ];
 
-// Variáveis de estado do jogo
 let currentQuestion = 0;
 let score = 0;
-let selectedAnswer = null;
+let answered = false;
 
-// Referências aos elementos do DOM
 const quizContainer = document.getElementById('quiz');
 const questionEl = document.getElementById('question');
 const optionsEl = document.getElementById('options');
-const progressEl = document.getElementById('progress');
+const progressTextEl = document.getElementById('progress-text');
+const progressFillEl = document.getElementById('progress-fill');
 const nextBtn = document.getElementById('next-btn');
 const resultScreen = document.getElementById('result-screen');
 const scoreText = document.getElementById('score-text');
 const messageEl = document.getElementById('message');
 const restartBtn = document.getElementById('restart-btn');
 
-// Inicializar o quiz
 function loadQuiz() {
-    selectedAnswer = null; // Reseta seleção
+    answered = false; 
+    nextBtn.disabled = true;
+    
     const currentQuizData = quizData[currentQuestion];
+    
+    progressTextEl.innerText = `Pergunta ${currentQuestion + 1} de ${quizData.length}`;
+    
+    // Atualiza barra de progresso
+    const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+    progressFillEl.style.width = `${progressPercent}%`;
 
-    // Atualiza texto do progresso e da pergunta
-    progressEl.innerText = `Pergunta ${currentQuestion + 1} de ${quizData.length}`;
     questionEl.innerText = currentQuizData.question;
-
-    // Limpa opções anteriores
     optionsEl.innerHTML = '';
 
-    // Cria os botões das alternativas
     currentQuizData.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.classList.add('option-btn');
         button.innerText = option;
-        button.addEventListener('click', () => selectOption(index, button));
+        button.addEventListener('click', () => handleAnswer(index, button));
         optionsEl.appendChild(button);
     });
 }
 
-// Lógica ao selecionar uma opção
-function selectOption(index, button) {
-    // Remove classe 'selected' de todos os botões
-    const allButtons = document.querySelectorAll('.option-btn');
-    allButtons.forEach(btn => btn.classList.remove('selected'));
+function handleAnswer(selectedIndex, clickedButton) {
+    if (answered) return; 
+    answered = true;
 
-    // Adiciona classe ao botão clicado
-    button.classList.add('selected');
-    selectedAnswer = index;
+    const correctIndex = quizData[currentQuestion].correct;
+    const allButtons = document.querySelectorAll('.option-btn');
+
+    if (selectedIndex === correctIndex) {
+        clickedButton.classList.add('correct');
+        score++;
+    } else {
+        clickedButton.classList.add('wrong');
+        allButtons[correctIndex].classList.add('correct');
+    }
+
+    allButtons.forEach(btn => btn.disabled = true);
+    nextBtn.disabled = false;
 }
 
-// Lógica do botão "Próxima"
 nextBtn.addEventListener('click', () => {
-    if (selectedAnswer === null) {
-        alert("Por favor, selecione uma resposta antes de prosseguir!");
-        return;
-    }
-
-    // Verifica se acertou
-    if (selectedAnswer === quizData[currentQuestion].correct) {
-        score++;
-    }
-
-    // Avança para próxima pergunta ou mostra resultado
     currentQuestion++;
 
     if (currentQuestion < quizData.length) {
@@ -123,14 +119,13 @@ nextBtn.addEventListener('click', () => {
     }
 });
 
-// Mostrar tela final
 function showResult() {
     quizContainer.classList.add('hidden');
     resultScreen.classList.remove('hidden');
+    progressFillEl.style.width = `100%`;
 
     scoreText.innerText = `${score}/${quizData.length}`;
 
-    // Mensagens personalizadas por desempenho
     if (score <= 4) {
         messageEl.innerText = "Continue aprendendo sobre os animais! 🐾";
     } else if (score <= 7) {
@@ -140,7 +135,6 @@ function showResult() {
     }
 }
 
-// Reiniciar o jogo
 restartBtn.addEventListener('click', () => {
     currentQuestion = 0;
     score = 0;
@@ -149,5 +143,4 @@ restartBtn.addEventListener('click', () => {
     loadQuiz();
 });
 
-// Início imediato
 loadQuiz();

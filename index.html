@@ -2,41 +2,48 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Animal - Teste seus conhecimentos!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz Animal - App Mode</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Container do Quiz -->
     <div class="quiz-container" id="quiz">
-        <!-- Cabeçalho do Quiz -->
-        <div class="quiz-header">
+        <header class="quiz-header">
             <h1>Mundo Animal 🐾</h1>
-            <p id="progress">Pergunta 1 de 10</p>
-        </div>
-
-        <!-- Área da Pergunta -->
-        <div class="question-container">
-            <h2 id="question">A pergunta aparecerá aqui?</h2>
-            <div id="options" class="options-grid">
-                <!-- As alternativas serão inseridas via JavaScript -->
+            <div class="progress-container">
+                <div id="progress-fill"></div>
             </div>
-        </div>
+            <p id="progress-text">Pergunta 1 de 10</p>
+        </header>
 
-        <!-- Controles -->
-        <div class="quiz-footer">
-            <button id="next-btn" class="btn">Próxima</button>
-        </div>
+        <main class="question-area">
+            <h2 id="question">Carregando pergunta...</h2>
+            <div id="options" class="options-grid">
+                <!-- Alternativas via JS -->
+            </div>
+        </main>
+
+        <footer class="quiz-footer">
+            <button id="next-btn" class="btn" disabled>Próxima</button>
+        </footer>
     </div>
 
-    <!-- Tela de Resultado (escondida inicialmente) -->
+    <!-- Tela de Resultado -->
     <div class="result-container hidden" id="result-screen">
-        <h2>Fim de Jogo!</h2>
-        <div class="score-circle">
-            <span id="score-text">0/10</span>
-        </div>
-        <p id="message">Mensagem de desempenho aqui.</p>
-        <button id="restart-btn" class="btn">Jogar Novamente</button>
+        <header>
+            <h2>Fim de Jogo!</h2>
+        </header>
+        <main class="result-content">
+            <div class="score-circle">
+                <span id="score-text">0/10</span>
+            </div>
+            <p id="message">Mensagem de desempenho.</p>
+        </main>
+        <footer>
+            <button id="restart-btn" class="btn">Jogar Novamente</button>
+        </footer>
     </div>
 
     <script src="script.js"></script>
